@@ -629,6 +629,13 @@ function executeSendOrder() {
     document.getElementById("table-num").selectedIndex = 0;
     document.getElementById("cust-address").value = "";
     document.getElementById("address-container").style.display = "none";
+    <div class="admin-panel" style="margin-top: 30px; padding: 20px; background: #2a2a2a; border-radius: 10px;">
+    <h3>🛠 Panel Admin (Edit Menu)</h3>
+    <input type="text" id="admin-item-name" placeholder="Nama Item" style="padding: 5px; width: 40%;">
+    <input type="number" id="admin-item-price" placeholder="Harga" style="padding: 5px; width: 20%;">
+    <button onclick="updateMenuItem()" style="padding: 5px 10px; background: #ffd700; border: none; cursor: pointer;">Simpan</button>
+    <p style="font-size: 12px; color: #888; margin-top: 10px;">*Nota: Untuk kemaskini harga secara drastik, disarankan simpan data menu dalam JSON di dalam localStorage.</p>
+</div>
     renderCart();
 }
 </script>
