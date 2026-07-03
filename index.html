@@ -3,309 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dalat Night Street POS App</title>
+    <title>Dalat Night Street POS & Admin System</title>
     
-    <!-- Pautan ke Manifest PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffd700">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link class="apple-touch-icon" href="logo.png">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: #121212;
             color: #e0e0e0;
             padding: 15px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
         .app-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 950px;
             background: #1e1e1e;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid #333;
         }
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .brand-logo {
-            width: 130px;
-            height: 130px;
-            object-fit: contain;
-            margin-bottom: 10px;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
-            background: #252525;
-        }
-        header h1 {
-            color: #ffd700;
-            font-size: 26px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-        header p {
-            color: #888;
-            font-size: 14px;
-            margin-top: 2px;
-        }
-        .customer-info {
+        
+        /* Navigation Mode Tabs */
+        .nav-tabs {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 10px;
-        }
-        .customer-info input, .customer-info select, .address-box textarea {
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            width: 100%;
-            font-family: inherit;
-        }
-        .customer-info input:focus, .address-box textarea:focus {
-            border-color: #ffd700;
-        }
-        .address-box {
-            display: none; 
             margin-bottom: 20px;
-            animation: fadeIn 0.3s ease;
+            width: 100%;
+            max-width: 950px;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        @media (min-width: 750px) {
-            .main-layout {
-                grid-template-columns: 1.4fr 1fr;
-            }
-        }
-        .menu-column {
-            max-height: 650px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        .category-title {
-            color: #ffd700;
-            font-size: 14px;
-            margin: 15px 0 8px 0;
-            padding: 5px;
-            border-left: 3px solid #ffd700;
-            text-transform: uppercase;
+        .tab-btn {
+            padding: 12px;
+            font-size: 16px;
             font-weight: bold;
-            background: rgba(255, 215, 0, 0.05);
-        }
-        .section-title {
-            color: #ff9900;
-            font-size: 18px;
-            margin: 25px 0 10px 0;
-            border-bottom: 2px solid #333;
-            padding-bottom: 5px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-        .btn-item {
-            background: #252525;
-            color: white;
-            border: 1px solid #3c3c3c;
-            padding: 12px 10px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 10px;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            text-align: left;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 70px;
+            background: #2a2a2a;
+            color: #888;
+            transition: all 0.3s ease;
+            text-align: center;
         }
-        .btn-item:hover {
+        .tab-btn.active {
             background: #ffd700;
             color: #111;
-            transform: translateY(-2px);
-        }
-        .btn-item .price {
-            font-size: 13px;
-            color: #ffd700;
-            font-weight: normal;
-            margin-top: 5px;
-        }
-        .cart-box {
-            background: #252525;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            max-height: 650px;
-        }
-        .cart-list {
-            list-style: none;
-            max-height: 350px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #1e1e1e;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            border-left: 3px solid #ffd700;
-        }
-        .cart-item-info {
-            font-size: 13px;
-        }
-        .btn-minus {
-            background: #ff4d4d;
-            border: none;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .btn-minus:hover {
-            background: #cc0000;
-        }
-        .summary-box {
-            background: #1a1a1a;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        .grand-total {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffd700;
-            border-top: 1px dashed #444;
-            padding-top: 8px;
-            margin-top: 8px;
-        }
-        .action-btns {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 10px;
-        }
-        .btn {
-            padding: 12px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-clear { background: #444; color: #eee; }
-        .btn-submit { background: #25d366; color: white; }
-        
-        .sales-history {
-            margin-top: 25px;
-            background: #151515;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 12px;
-            color: #888;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
         }
 
-        .qr-modal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
-        }
-        .qr-content {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
+        header {
             text-align: center;
-            max-width: 320px;
-            width: 90%;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            color: #333;
+            margin-bottom: 25px;
         }
-        .qr-content img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin: 15px 0;
+        .brand-logo {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            background: #252525;
         }
-        .qr-content h3 {
-            color: #d6006e;
-            font-size: 18px;
+        header h1 { color: #ffd700; font-size: 24px; text-transform: uppercase; }
+        header p { color: #888; font-size: 13px; }
+
+        /* Panels Hide/Show */
+        .view-panel { display: none; }
+        .view-panel.active { display: block; }
+
+        /* User Layout */
+        .customer-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .customer-info input, .customer-info select, .address-box textarea, .admin-edit-box input, .admin-edit-box select {
+            background: #2a2a2a; border: 1px solid #444; color: white; padding: 12px; border-radius: 8px; font-size: 14px; outline: none; width: 100%;
         }
-        .qr-content p {
-            font-size: 14px;
-            color: #666;
+        .address-box { display: none; margin-bottom: 20px; }
+        
+        .main-layout { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 750px) { .main-layout { grid-template-columns: 1.4fr 1fr; } }
+        
+        .menu-column { max-height: 600px; overflow-y: auto; padding-right: 10px; }
+        .category-title { color: #ffd700; font-size: 13px; margin: 15px 0 8px 0; padding: 5px; border-left: 3px solid #ffd700; text-transform: uppercase; font-weight: bold; background: rgba(255, 215, 0, 0.05); }
+        .section-title { color: #ff9900; font-size: 17px; margin: 25px 0 10px 0; border-bottom: 2px solid #333; padding-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        
+        .btn-item {
+            background: #252525; color: white; border: 1px solid #3c3c3c; padding: 12px 10px; font-size: 13px; font-weight: bold; border-radius: 10px; cursor: pointer; text-align: left; display: flex; flex-direction: column; justify-content: space-between; min-height: 70px;
         }
-        .btn-close-qr {
-            background: #25d366;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            font-size: 15px;
-            margin-top: 5px;
-        }
+        .btn-item:hover { background: #ffd700; color: #111; }
+        .btn-item .price { font-size: 13px; color: #ffd700; font-weight: normal; margin-top: 5px; }
+        
+        .cart-box { background: #252525; padding: 15px; border-radius: 10px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; max-height: 600px; }
+        .cart-list { list-style: none; max-height: 320px; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 10px; border-radius: 6px; margin-bottom: 8px; border-left: 3px solid #ffd700; }
+        .btn-minus { background: #ff4d4d; border: none; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+
+        .summary-box { background: #1a1a1a; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+        .grand-total { font-size: 20px; font-weight: bold; color: #ffd700; border-top: 1px dashed #444; padding-top: 8px; margin-top: 8px; }
+        .action-btns { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+        .btn { padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-clear { background: #444; color: #eee; }
+        .btn-submit { background: #25d366; color: white; }
+
+        /* Admin Monitor Styles */
+        .admin-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; text-align: center; }
+        .dash-card { background: #252525; padding: 12px; border-radius: 8px; border: 1px solid #333; }
+        .dash-card h3 { font-size: 12px; color: #888; text-transform: uppercase; }
+        .dash-card p { font-size: 20px; font-weight: bold; color: #ffd700; margin-top: 5px; }
+        
+        .order-monitor-list { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+        .order-card { background: #252525; border: 1px solid #3c3c3c; border-radius: 10px; padding: 15px; border-top: 4px solid #ff9900; }
+        .order-card.completed { border-top-color: #25d366; opacity: 0.8; }
+        .order-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .order-details { font-size: 13px; margin-bottom: 10px; color: #ccc; line-height: 1.5; }
+        .order-actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-small { padding: 6px 12px; font-size: 12px; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; }
+        .btn-edit { background: #3498db; color: white; }
+        .btn-done { background: #2ecc71; color: white; }
+        .btn-del { background: #e74c3c; color: white; }
+
+        /* Modals */
+        .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; text-align: center; max-width: 340px; width: 90%; color: #333; }
+        .modal-content img { width: 100%; height: auto; border-radius: 10px; margin: 15px 0; }
+        .btn-close-modal { background: #25d366; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px; }
+        
+        .admin-edit-box { text-align: left; }
+        .admin-edit-box label { font-size: 12px; font-weight: bold; color: #555; display: block; margin-top: 8px; margin-bottom: 2px;}
+        .admin-edit-box input, .admin-edit-box select { color: #111; background: #f0f0f0; border: 1px solid #ccc; padding: 8px; }
+
+        .sales-history { margin-top: 25px; background: #151515; padding: 10px; border-radius: 8px; text-align: center; font-size: 12px; color: #888; }
     </style>
 </head>
 <body>
 
-<div id="qrModal" class="qr-modal">
-    <div class="qr-content">
-        <h3>PILIHAN DUITNOW QR</h3>
-        <p>Sila imbas kod QR di bawah untuk membuat pembayaran:</p>
-        <img src="qr.jpeg" alt="DuitNow QR Azrul Bin Rabe" id="qr-img">
+<!-- Navigation Tabs -->
+<div class="nav-tabs">
+    <button id="tab-user" class="tab-btn active" onclick="switchMode('user')">🛒 Guna / Ambil Order</button>
+    <button id="tab-admin" class="tab-btn" onclick="switchMode('admin')">👑 Monitor Admin</button>
+</div>
+
+<!-- QR Modal -->
+<div id="qrModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color:#d6006e;">PILIHAN DUITNOW QR</h3>
+        <p style="font-size:13px; color:#666;">Sila imbas kod QR di bawah untuk membuat pembayaran:</p>
+        <img src="qr.jpeg" alt="DuitNow QR" id="qr-img">
         <p style="font-weight: bold; margin-bottom: 10px; color:#111;">NAMA: AZRUL BIN RABE</p>
-        <button class="btn-close-qr" onclick="confirmQR()">&check; Selesai Bayar & Hantar WhatsApp</button>
+        <button class="btn-close-modal" onclick="confirmQR()">&check; Selesai & Hantar WhatsApp</button>
+    </div>
+</div>
+
+<!-- Admin Order Editor Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content" style="max-width: 450px;">
+        <h3 style="color:#111; border-bottom:1px solid #ddd; padding-bottom:5px;">Ubah / Edit Order</h3>
+        <div class="admin-edit-box" id="edit-form-container">
+            <!-- Diisi secara dinamik oleh JavaScript -->
+        </div>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button class="btn" style="background:#aaa; color:#111; flex:1;" onclick="closeEditModal()">Batal</button>
+            <button class="btn" style="background:#25d366; color:white; flex:1;" onclick="saveEditedOrder()">Simpan Perubahan</button>
+        </div>
     </div>
 </div>
 
@@ -313,135 +179,138 @@
     <header>
         <img src="logo.png" class="brand-logo" alt="Dalat Night Street Logo" id="brand-logo-img">
         <h1>Dalat Night Street</h1>
-        <p>Sistem Pesanan Makanan & Minuman Pelanggan</p>
+        <p id="app-subtitle">Sistem Pesanan Makanan & Minuman Pelanggan</p>
     </header>
 
-    <div class="customer-info">
-        <input type="text" id="cust-name" placeholder="Nama Pelanggan (Pilihan)">
-        <select id="table-num" onchange="toggleAddressField()">
-            <option value="Bungkus / Take Away">Bungkus (Take Away)</option>
-            <option value="Meja 1">Meja 1</option>
-            <option value="Meja 2">Meja 2</option>
-            <option value="Meja 3">Meja 3</option>
-            <option value="Meja 4">Meja 4</option>
-            <option value="Meja 5">Meja 5</option>
-            <option value="Penghantaran COD (Minta Alamat)">Penghantaran COD (Runner Kedai)</option>
-        </select>
-    </div>
-
-    <div class="address-box" id="address-container">
-        <textarea id="cust-address" rows="3" placeholder="Masukkan Alamat Penuh / Lokasi Penghantaran & No. Telefon Pelanggan..."></textarea>
-    </div>
-
-    <div class="main-layout">
-        <div class="menu-column">
-            <div class="section-title">🔥 KA Charkueyteaw</div>
-            <div class="category-title">Pilihan Biasa</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('CKT Biasa', 8.00)">CKT Biasa <span class="price">RM 8.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Ayam', 10.00)">CKT Ayam <span class="price">RM 10.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Kerang', 12.00)">CKT Kerang <span class="price">RM 12.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Udang', 12.00)">CKT Udang <span class="price">RM 12.00</span></button>
-            </div>
-
-            <div class="category-title">Pilihan Besar</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('CKT Besar Ayam', 12.00)">CKT Besar Ayam <span class="price">RM 12.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Besar Udang', 14.00)">CKT Besar Udang <span class="price">RM 14.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Besar Kerang', 14.00)">CKT Besar Kerang <span class="price">RM 14.00</span></button>
-            </div>
-
-            <div class="category-title">Goreng Kering (Dry Style)</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('CKT Kering Biasa', 8.00)">Kering Biasa <span class="price">RM 8.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Kering Ayam', 10.00)">Kering Ayam <span class="price">RM 10.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Kering Kerang', 12.00)">Kering Kerang <span class="price">RM 12.00</span></button>
-                <button class="btn-item" onclick="addToCart('CKT Kering Udang', 12.00)">Kering Udang <span class="price">RM 12.00</span></button>
-            </div>
-
-            <div class="category-title">Special & Add-On</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('CKT Special', 19.00)">CKT Special <span class="price">RM 19.00</span></button>
-                <button class="btn-item" onclick="addToCart('Add-on Telur Mata', 2.00)">Add-on Telur Mata <span class="price">RM 2.00</span></button>
-            </div>
-
-            <div class="section-title">🍔 JD Burger</div>
-            <div class="category-title">Ordinary Burger</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('Burger Benjo', 4.00)">Benjo <span class="price">RM 4.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Benjo Cheese', 5.00)">Benjo Cheese <span class="price">RM 5.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Double Egg', 6.00)">Double Egg <span class="price">RM 6.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Chicken Ordinary', 6.00)">Chicken <span class="price">RM 6.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Chicken Egg Ord', 7.00)">Chicken Egg <span class="price">RM 7.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Chicken Cheese Ord', 7.00)">Chicken Cheese <span class="price">RM 7.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Chicken Special Ord', 8.00)">Chicken Special <span class="price">RM 8.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Beef Ordinary', 6.00)">Beef <span class="price">RM 6.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Beef Egg Ord', 7.00)">Beef Egg <span class="price">RM 7.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Beef Cheese Ord', 7.00)">Beef Cheese <span class="price">RM 7.00</span></button>
-                <button class="btn-item" onclick="addToCart('Burger Beef Special Ord', 8.00)">Beef Special <span class="price">RM 8.00</span></button>
-                <button class="btn-item" onclick="addToCart('King Burger Ordinary', 11.00)">King Burger <span class="price">RM 11.00</span></button>
-            </div>
-            
-            <div class="category-title">Ramly Burger</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('Ramly Chicken', 8.00)">Ramly Chicken <span class="price">RM 8.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Chicken Egg', 9.00)">Ramly Chicken Egg <span class="price">RM 9.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Chicken Cheese', 9.00)">Ramly Chicken Cheese <span class="price">RM 9.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Chicken Special', 10.00)">Ramly Chicken Spec. <span class="price">RM 10.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Beef', 8.00)">Ramly Beef <span class="price">RM 8.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Beef Egg', 9.00)">Ramly Beef Egg <span class="price">RM 9.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Beef Cheese', 9.00)">Ramly Beef Cheese <span class="price">RM 9.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly Beef Special', 10.00)">Ramly Beef Spec. <span class="price">RM 10.00</span></button>
-                <button class="btn-item" onclick="addToCart('Ramly King Burger', 13.00)">Ramly King Burger <span class="price">RM 13.00</span></button>
-            </div>
-
-            <div class="category-title">Burger Add-On</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('Add-on Egg (Burger)', 1.00)">Add Egg <span class="price">RM 1.00</span></button>
-                <button class="btn-item" onclick="addToCart('Add-on Cheese (Burger)', 2.00)">Add Cheese <span class="price">RM 2.00</span></button>
-            </div>
-
-            <div class="section-title">🥤 Menu Minuman</div>
-            <div class="menu-grid">
-                <button class="btn-item" onclick="addToCart('Teh Ais', 4.00)">Teh Ais <span class="price">RM 4.00</span></button>
-                <button class="btn-item" onclick="addToCart('Teh O Ais', 3.50)">Teh O Ais <span class="price">RM 3.50</span></button>
-                <button class="btn-item" onclick="addToCart('Kopi Ais', 4.00)">Kopi Ais <span class="price">RM 4.00</span></button>
-                <button class="btn-item" onclick="addToCart('Milo Ais', 4.00)">Milo Ais <span class="price">RM 4.00</span></button>
-                <button class="btn-item" onclick="addToCart('Bandung', 4.00)">Bandung <span class="price">RM 4.00</span></button>
-                <button class="btn-item" onclick="addToCart('Air Kosong', 0.50)">Air Kosong <span class="price">RM 0.50</span></button>
-            </div>
+    <!-- ================= PENGGUNA PANEL ================= -->
+    <div id="panel-user" class="view-panel active">
+        <div class="customer-info">
+            <input type="text" id="cust-name" placeholder="Nama Pelanggan (Pilihan)">
+            <select id="table-num" onchange="toggleAddressField()">
+                <option value="Bungkus / Take Away">Bungkus (Take Away)</option>
+                <option value="Meja 1">Meja 1</option>
+                <option value="Meja 2">Meja 2</option>
+                <option value="Meja 3">Meja 3</option>
+                <option value="Meja 4">Meja 4</option>
+                <option value="Meja 5">Meja 5</option>
+                <option value="Penghantaran COD (Minta Alamat)">Penghantaran COD (Runner Kedai)</option>
+            </select>
         </div>
 
-        <div class="cart-box">
-            <div>
-                <div class="section-title" style="margin-top:0">🛒 Senarai Pesanan</div>
-                <ul class="cart-list" id="cart-list"></ul>
-            </div>
+        <div class="address-box" id="address-container">
+            <textarea id="cust-address" rows="3" placeholder="Masukkan Alamat Penuh / Lokasi Penghantaran & No. Telefon Pelanggan..."></textarea>
+        </div>
 
-            <div>
-                <div class="summary-box">
-                    <div class="summary-row">
-                        <span>Kaedah Bayaran:</span>
-                        <select id="pay-method" style="background:#222; color:white; border:1px solid #444; border-radius:4px; padding:2px 5px;">
-                            <option value="Tunai / Cash">Tunai (Cash / COD)</option>
-                            <option value="DuitNow QR">DuitNow QR</option>
-                        </select>
-                    </div>
-                    <div class="summary-row grand-total">
-                        <span>Jumlah Total:</span>
-                        <span>RM <span id="grand-total">0.00</span></span>
-                    </div>
+        <div class="main-layout">
+            <div class="menu-column">
+                <div class="section-title">🔥 Legend Grill</div>
+                <div class="category-title">Menu Ikan & Sotong Bakar</div>
+                <div class="menu-grid">
+                    <button class="btn-item" onclick="addToCart('Duai Emas Bakar (500g)', 30.00)">Duai Emas (500g) <span class="price">RM 30.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Duai Emas Bakar (300-400g)', 25.00)">Duai Emas (300-400g) <span class="price">RM 25.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Sotong Bakar Legend', 25.00)">Sotong Bakar <span class="price">RM 25.00</span></button>
                 </div>
 
-                <div class="action-btns">
-                    <button class="btn btn-clear" onclick="clearCart()">Kosong</button>
-                    <button class="btn btn-submit" onclick="submitOrder()">Hantar WhatsApp</button>
+                <div class="section-title">🔥 KA Charkueyteaw</div>
+                <div class="category-title">Pilihan Biasa</div>
+                <div class="menu-grid">
+                    <button class="btn-item" onclick="addToCart('CKT Biasa', 8.00)">CKT Biasa <span class="price">RM 8.00</span></button>
+                    <button class="btn-item" onclick="addToCart('CKT Ayam', 10.00)">CKT Ayam <span class="price">RM 10.00</span></button>
+                    <button class="btn-item" onclick="addToCart('CKT Kerang', 12.00)">CKT Kerang <span class="price">RM 12.00</span></button>
+                    <button class="btn-item" onclick="addToCart('CKT Udang', 12.00)">CKT Udang <span class="price">RM 12.00</span></button>
+                </div>
+
+                <div class="category-title">Pilihan Besar</div>
+                <div class="menu-grid">
+                    <button class="btn-item" onclick="addToCart('CKT Besar Ayam', 12.00)">CKT Besar Ayam <span class="price">RM 12.00</span></button>
+                    <button class="btn-item" onclick="addToCart('CKT Besar Udang', 14.00)">CKT Besar Udang <span class="price">RM 14.00</span></button>
+                    <button class="btn-item" onclick="addToCart('CKT Besar Kerang', 14.00)">CKT Besar Kerang <span class="price">RM 14.00</span></button>
+                </div>
+
+                <div class="section-title">🍔 JD Burger</div>
+                <div class="category-title">Ordinary Burger</div>
+                <div class="menu-grid">
+                    <button class="btn-item" onclick="addToCart('Burger Benjo', 4.00)">Benjo <span class="price">RM 4.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Burger Chicken Ordinary', 6.00)">Chicken <span class="price">RM 6.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Burger Beef Ordinary', 6.00)">Beef <span class="price">RM 6.00</span></button>
+                </div>
+
+                <div class="section-title">🥤 KTS Padu (Kopi Tenom)</div>
+                <div class="category-title">Pilihan Panas</div>
+                <div class="menu-grid">
+                    <button class="btn-item" onclick="addToCart('Kopi Panas (KTS)', 3.50)">Kopi Panas <span class="price">RM 3.50</span></button>
+                    <button class="btn-item" onclick="addToCart('Kopi O Panas (KTS)', 3.00)">Kopi O Panas <span class="price">RM 3.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Teh C Panas (KTS)', 3.50)">Teh C Panas <span class="price">RM 3.50</span></button>
+                    <button class="btn-item" onclick="addToCart('Milo Panas (KTS)', 3.50)">Milo Panas <span class="price">RM 3.50</span></button>
+                </div>
+                
+                <div class="category-title">Pilihan Sejuk (Peng)</div>
+                <div class="menu-grid">
+                    <button class="btn-item" onclick="addToCart('Kopi Peng (KTS)', 4.00)">Kopi Peng <span class="price">RM 4.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Kopi O Peng (KTS)', 3.50)">Kopi O Peng <span class="price">RM 3.50</span></button>
+                    <button class="btn-item" onclick="addToCart('Teh C Peng (KTS)', 4.00)">Teh C Peng <span class="price">RM 4.00</span></button>
+                    <button class="btn-item" onclick="addToCart('Milo Peng (KTS)', 4.00)">Milo Peng <span class="price">RM 4.00</span></button>
+                </div>
+            </div>
+
+            <div class="cart-box">
+                <div>
+                    <div class="section-title" style="margin-top:0">🛒 Senarai Pesanan</div>
+                    <ul class="cart-list" id="cart-list"></ul>
+                </div>
+
+                <div>
+                    <div class="summary-box">
+                        <div class="summary-row">
+                            <span>Kaedah Bayaran:</span>
+                            <select id="pay-method" style="background:#222; color:white; border:1px solid #444; border-radius:4px; padding:2px 5px;">
+                                <option value="Tunai / Cash">Tunai (Cash / COD)</option>
+                                <option value="DuitNow QR">DuitNow QR</option>
+                            </select>
+                        </div>
+                        <div class="summary-row grand-total">
+                            <span>Jumlah Total:</span>
+                            <span>RM <span id="grand-total">0.00</span></span>
+                        </div>
+                    </div>
+
+                    <div class="action-btns">
+                        <button class="btn btn-clear" onclick="clearCart()">Kosong</button>
+                        <button class="btn btn-submit" onclick="submitOrder()">Hantar WhatsApp</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="sales-history">
+    <!-- ================= ADMIN MONITOR PANEL ================= -->
+    <div id="panel-admin" class="view-panel">
+        <div class="admin-dashboard">
+            <div class="dash-card">
+                <h3>Jualan Hari Ini</h3>
+                <p>RM <span id="admin-sales">0.00</span></p>
+            </div>
+            <div class="dash-card">
+                <h3>Total Order</h3>
+                <p id="admin-orders">0</p>
+            </div>
+            <div class="dash-card">
+                <h3>Aktif (Belum Selesai)</h3>
+                <p id="admin-active" style="color: #ff9900;">0</p>
+            </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+            <h2 style="color:#ffd700; font-size:16px; text-transform:uppercase;">💻 Monitor Order Skrin Utama</h2>
+            <button class="btn-small" style="background:#ff3333; color:white;" onclick="resetAllData()">Reset Semua Jualan</button>
+        </div>
+
+        <div class="order-monitor-list" id="order-monitor-container">
+            <!-- Senarai Order Masuk dipaparkan di sini -->
+        </div>
+    </div>
+
+    <div class="sales-history" id="footer-sales-bar">
         Jumlah Jualan Hari Ini: <strong>RM <span id="today-sales">0.00</span></strong> | Total Pesanan: <strong id="total-orders">0</strong>
     </div>
 </div>
@@ -450,37 +319,67 @@
 let cart = {};
 let todaySales = 0;
 let totalOrders = 0;
+let orderList = []; // Menyimpan senarai semua pesanan masuk
+let currentEditingOrderId = null;
 
-// Penambahbaikan: Sistem semakan Service Worker yang lebih selamat untuk mengelakkan ralat 404 di GitHub
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('PWA Service Worker Aktif!', reg))
-        .catch(err => console.warn('PWA sw.js tidak dijumpai/aktif di GitHub. Aplikasi utama tetap berjalan normal.', err));
-    });
+// Ganti ikon jika rosak
+document.getElementById('brand-logo-img').onerror = function() { this.src = 'https://placehold.co/110x110/252525/ffd700?text=DALAT'; };
+document.getElementById('qr-img').onerror = function() { this.src = 'https://placehold.co/300x300/ffffff/d6006e?text=Sila+Letak+qr.jpeg'; };
+
+// Ambil data daripada LocalStorage
+function loadData() {
+    try {
+        todaySales = parseFloat(localStorage.getItem('dalat_sales')) || 0;
+        totalOrders = parseInt(localStorage.getItem('dalat_orders')) || 0;
+        orderList = JSON.parse(localStorage.getItem('dalat_order_list')) || [];
+    } catch(e) {
+        console.log("Storage disekat");
+    }
+    updateDisplayCounters();
 }
 
-document.getElementById('brand-logo-img').onerror = function() {
-    this.src = 'https://placehold.co/130x130/252525/ffd700?text=DALAT';
-};
-document.getElementById('qr-img').onerror = function() {
-    this.src = 'https://placehold.co/300x300/ffffff/d6006e?text=Sila+Letak+qr.jpeg';
-};
-
-try {
-    todaySales = parseFloat(localStorage.getItem('dalat_sales')) || 0;
-    totalOrders = parseInt(localStorage.getItem('dalat_orders')) || 0;
-} catch(e) {
-    console.log("Storage disekat");
+function updateDisplayCounters() {
+    document.getElementById('today-sales').innerText = todaySales.toFixed(2);
+    document.getElementById('total-orders').innerText = totalOrders;
+    
+    document.getElementById('admin-sales').innerText = todaySales.toFixed(2);
+    document.getElementById('admin-orders').innerText = totalOrders;
+    
+    let activeCount = orderList.filter(o => o.status === 'Aktif').length;
+    document.getElementById('admin-active').innerText = activeCount;
 }
 
-document.getElementById('today-sales').innerText = todaySales.toFixed(2);
-document.getElementById('total-orders').innerText = totalOrders;
+loadData();
+
+// Tukar Mod User <-> Admin
+function switchMode(mode) {
+    if (mode === 'admin') {
+        let pin = prompt("Sila masukkan kata laluan keselamatan Admin:", "");
+        if (pin === "admin123") { // Kata laluan lalai
+            document.getElementById('tab-user').classList.remove('active');
+            document.getElementById('tab-admin').classList.add('active');
+            document.getElementById('panel-user').classList.remove('active');
+            document.getElementById('panel-admin').classList.add('active');
+            document.getElementById('app-subtitle').innerText = "💻 PANEL MONITORING & EDIT UTAMA ADMIN";
+            document.getElementById('footer-sales-bar').style.display = "none";
+            renderAdminOrders();
+        } else {
+            alert("Kata laluan SALAH! Anda tiada akses Admin.");
+        }
+    } else {
+        document.getElementById('tab-admin').classList.remove('active');
+        document.getElementById('tab-user').classList.add('active');
+        document.getElementById('panel-admin').classList.remove('active');
+        document.getElementById('panel-user').classList.add('active');
+        document.getElementById('app-subtitle').innerText = "Sistem Pesanan Makanan & Minuman Pelanggan";
+        document.getElementById('footer-sales-bar').style.display = "block";
+        loadData();
+    }
+}
 
 function toggleAddressField() {
     let tableSelect = document.getElementById("table-num").value;
     let addressContainer = document.getElementById("address-container");
-    
     if (tableSelect === "Penghantaran COD (Minta Alamat)") {
         addressContainer.style.display = "block";
     } else {
@@ -490,20 +389,15 @@ function toggleAddressField() {
 }
 
 function addToCart(name, price) {
-    if (cart[name]) {
-        cart[name].qty += 1;
-    } else {
-        cart[name] = { price: price, qty: 1 };
-    }
+    if (cart[name]) { cart[name].qty += 1; } 
+    else { cart[name] = { price: price, qty: 1 }; }
     renderCart();
 }
 
 function removeOne(name) {
     if (cart[name]) {
         cart[name].qty -= 1;
-        if (cart[name].qty <= 0) {
-            delete cart[name];
-        }
+        if (cart[name].qty <= 0) delete cart[name];
     }
     renderCart();
 }
@@ -532,7 +426,6 @@ function renderCart() {
         `;
         listHTML.appendChild(li);
     }
-
     document.getElementById("grand-total").innerText = grandTotal.toFixed(2);
 }
 
@@ -546,10 +439,7 @@ function clearCart() {
 
 function submitOrder() {
     let total = parseFloat(document.getElementById("grand-total").innerText);
-    if (total === 0) {
-        alert("Sila pilih menu terlebih dahulu!");
-        return;
-    }
+    if (total === 0) { alert("Sila pilih menu terlebih dahulu!"); return; }
 
     let table = document.getElementById("table-num").value;
     let address = document.getElementById("cust-address").value.trim();
@@ -560,7 +450,6 @@ function submitOrder() {
     }
 
     let payment = document.getElementById("pay-method").value;
-
     if (payment === "DuitNow QR") {
         document.getElementById("qrModal").style.display = "flex";
     } else {
@@ -579,57 +468,234 @@ function executeSendOrder() {
     let table = document.getElementById("table-num").value;
     let address = document.getElementById("cust-address").value.trim();
     let payment = document.getElementById("pay-method").value;
+    let timeStamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-    let receipt = `*===== DALAT NIGHT STREET =====*\n`;
-    
-    if (table === "Penghantaran COD (Minta Alamat)") {
-        receipt += `🛵 *Jenis Pesanan:* Penghantaran COD (Runner)\n`;
-        receipt += `👤 *Nama Pelanggan:* ${name}\n`;
-        receipt += `📍 *Alamat/Lokasi:* ${address}\n`;
-    } else {
-        receipt += `📍 *Lokasi:* ${table}\n`;
-        receipt += `👤 *Nama:* ${name}\n`;
-    }
-    
+    // Simpan pesanan ke dalam storan senarai Monitor Admin
+    let newOrder = {
+        id: Date.now(),
+        custName: name,
+        tableNum: table,
+        address: address,
+        items: JSON.parse(JSON.stringify(cart)), // Klon senarai barangan
+        totalPrice: total,
+        payMethod: payment,
+        time: timeStamp,
+        status: "Aktif"
+    };
+
+    orderList.unshift(newOrder); // Masukkan ke bahagian paling atas
+    todaySales += total;
+    totalOrders += 1;
+
+    localStorage.setItem('dalat_sales', todaySales);
+    localStorage.setItem('dalat_orders', totalOrders);
+    localStorage.setItem('dalat_order_list', JSON.stringify(orderList));
+
+    // Bina Resit WhatsApp
+    let receipt = `*===== DALAT NIGHT STREET =====*\n📍 *Lokasi:* ${table}\n👤 *Nama:* ${name}\n`;
+    if(address) receipt += `🏠 *Alamat:* ${address}\n`;
     receipt += `-----------------------------\n`;
-    
     for (let item in cart) {
         receipt += `▪️ ${item} (x${cart[item].qty}) - RM ${(cart[item].price * cart[item].qty).toFixed(2)}\n`;
     }
-    
-    receipt += `-----------------------------\n`;
-    receipt += `💰 *JUMLAH BESAR : RM ${total.toFixed(2)}*\n`;
-    receipt += `💳 *Bayaran :* ${payment}\n\n`;
-    
-    if (table === "Penghantaran COD (Minta Alamat)") {
-        receipt += `*(Nota: Jumlah di atas tidak termasuk caj runner jarak jauh, sila sahkan kos penghantaran dengan kedai)*\n\n`;
-    }
-    
-    receipt += `Sila sahkan pesanan saya. Terima kasih!`;
+    receipt += `-----------------------------\n💰 *TOTAL : RM ${total.toFixed(2)}*\n💳 *Bayaran :* ${payment}\n\nSila sahkan pesanan saya. Terima kasih!`;
 
-    let noTelefonKedai = "60178987065"; 
-    let urlWhatsApp = `https://wa.me/${noTelefonKedai}?text=${encodeURIComponent(receipt)}`;
+    window.open(`https://wa.me/60178987065?text=${encodeURIComponent(receipt)}`, '_blank');
 
-    try {
-        todaySales += total;
-        totalOrders += 1;
-        localStorage.setItem('dalat_sales', todaySales);
-        localStorage.setItem('dalat_orders', totalOrders);
-        document.getElementById('today-sales').innerText = todaySales.toFixed(2);
-        document.getElementById('total-orders').innerText = totalOrders;
-    } catch(e) {
-        console.log("Gagal mengemas kini rekod jualan.");
-    }
-
-    // Penambahbaikan: Menggunakan window.open untuk keselamatan pemuatan halaman luar di GitHub Pages
-    window.open(urlWhatsApp, '_blank');
-
+    // Kosongkan semula form skrin pengguna
     cart = {};
     document.getElementById("cust-name").value = "";
     document.getElementById("table-num").selectedIndex = 0;
     document.getElementById("cust-address").value = "";
     document.getElementById("address-container").style.display = "none";
     renderCart();
+    loadData();
+}
+
+// ================= JAVASCRIPT ADMIN MONITOR FUNGSI =================
+function renderAdminOrders() {
+    let container = document.getElementById("order-monitor-container");
+    container.innerHTML = "";
+
+    if (orderList.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#666; margin-top:30px;">Tiada rekod pesanan buat masa ini.</p>`;
+        return;
+    }
+
+    orderList.forEach(order => {
+        let card = document.createElement("div");
+        card.className = `order-card ${order.status === 'Selesai' ? 'completed' : ''}`;
+        
+        let itemsSummary = "";
+        for (let itemName in order.items) {
+            let it = order.items[itemName];
+            itemsSummary += `• ${itemName} <strong>(x${it.qty})</strong> - RM ${(it.price * it.qty).toFixed(2)}<br>`;
+        }
+
+        card.innerHTML = `
+            <div class="order-header">
+                <span>🕒 ${order.time} | ${order.tableNum}</span>
+                <span style="color:${order.status === 'Selesai' ? '#2ecc71' : '#ff9900'}">${order.status.toUpperCase()}</span>
+            </div>
+            <div class="order-details">
+                <strong>Pelanggan:</strong> ${order.custName}<br>
+                ${order.address ? `<strong>Alamat:</strong> ${order.address}<br>` : ''}
+                <div style="margin-top:8px; padding:8px; background:#1e1e1e; border-radius:5px;">
+                    ${itemsSummary}
+                </div>
+                <div style="margin-top:8px; text-align:right;">
+                    <strong>Kaedah Bayar:</strong> ${order.payMethod} | <span style="color:#ffd700; font-size:15px; font-weight:bold;">Total: RM ${order.totalPrice.toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="order-actions">
+                ${order.status === 'Aktif' ? `<button class="btn-small btn-done" onclick="markAsDone(${order.id})">✔ Selesai</button>` : ''}
+                <button class="btn-small btn-edit" onclick="openEditModal(${order.id})">✏ Ubah / Edit</button>
+                <button class="btn-small btn-del" onclick="deleteOrder(${order.id})">🗑 Padam</button>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function markAsDone(id) {
+    let order = orderList.find(o => o.id === id);
+    if (order) {
+        order.status = "Selesai";
+        localStorage.setItem('dalat_order_list', JSON.stringify(orderList));
+        updateDisplayCounters();
+        renderAdminOrders();
+    }
+}
+
+function deleteOrder(id) {
+    if (confirm("Adakah anda pasti mahu memadam pesanan ini daripada rekod monitor? (Nota: Ini akan menolak balik nilai jualan)")) {
+        let orderIndex = orderList.findIndex(o => o.id === id);
+        if (orderIndex > -1) {
+            // Tolak balik harga jualan daripada dashboard jualan hari ini
+            todaySales -= orderList[orderIndex].totalPrice;
+            if(todaySales < 0) todaySales = 0;
+            totalOrders -= 1;
+            if(totalOrders < 0) totalOrders = 0;
+
+            orderList.splice(orderIndex, 1);
+            localStorage.setItem('dalat_sales', todaySales);
+            localStorage.setItem('dalat_orders', totalOrders);
+            localStorage.setItem('dalat_order_list', JSON.stringify(orderList));
+            
+            updateDisplayCounters();
+            renderAdminOrders();
+        }
+    }
+}
+
+// Buka Panel Editor khas untuk Admin menukar pesanan bila-bila masa
+function openEditModal(id) {
+    currentEditingOrderId = id;
+    let order = orderList.find(o => o.id === id);
+    if (!order) return;
+
+    let container = document.getElementById("edit-form-container");
+    container.innerHTML = `
+        <label>Nama Pelanggan:</label>
+        <input type="text" id="edit-cust-name" value="${order.custName}">
+        
+        <label>Lokasi / Meja:</label>
+        <select id="edit-table-num">
+            <option value="Bungkus / Take Away" ${order.tableNum === 'Bungkus / Take Away' ? 'selected' : ''}>Bungkus (Take Away)</option>
+            <option value="Meja 1" ${order.tableNum === 'Meja 1' ? 'selected' : ''}>Meja 1</option>
+            <option value="Meja 2" ${order.tableNum === 'Meja 2' ? 'selected' : ''}>Meja 2</option>
+            <option value="Meja 3" ${order.tableNum === 'Meja 3' ? 'selected' : ''}>Meja 3</option>
+            <option value="Meja 4" ${order.tableNum === 'Meja 4' ? 'selected' : ''}>Meja 4</option>
+            <option value="Meja 5" ${order.tableNum === 'Meja 5' ? 'selected' : ''}>Meja 5</option>
+            <option value="Penghantaran COD (Minta Alamat)" ${order.tableNum.includes('Penghantaran') ? 'selected' : ''}>Penghantaran COD (Runner Kedai)</option>
+        </select>
+
+        <label>Status Pesanan:</label>
+        <select id="edit-status">
+            <option value="Aktif" ${order.status === 'Aktif' ? 'selected' : ''}>Aktif</option>
+            <option value="Selesai" ${order.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+        </select>
+
+        <h4 style="margin-top:12px; font-size:13px; color:#111; border-bottom:1px solid #eee;">Ubah Kuantiti Item (Letak 0 untuk padam):</h4>
+        <div id="edit-items-list" style="max-height:150px; overflow-y:auto; margin-top:5px;">
+            <!-- Barangan senarai akan dimuat di bawah -->
+        </div>
+    `;
+
+    let itemsListContainer = document.getElementById("edit-items-list");
+    for (let name in order.items) {
+        let item = order.items[name];
+        let div = document.createElement("div");
+        div.style = "display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; font-size:13px;";
+        div.innerHTML = `
+            <span style="color:#333; font-weight:bold;">${name} (RM ${item.price.toFixed(2)}):</span>
+            <input type="number" class="edit-item-qty" data-name="${name}" data-price="${item.price}" value="${item.qty}" min="0" style="width:70px; padding:4px; text-align:center;">
+        `;
+        itemsListContainer.appendChild(div);
+    }
+
+    document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+    currentEditingOrderId = null;
+}
+
+function saveEditedOrder() {
+    let order = orderList.find(o => o.id === currentEditingOrderId);
+    if (!order) return;
+
+    // Ambil nilai baharu
+    order.custName = document.getElementById("edit-cust-name").value.trim() || "Pelanggan";
+    order.tableNum = document.getElementById("edit-table-num").value;
+    order.status = document.getElementById("edit-status").value;
+
+    // Tolak nilai total harga lama daripada jualan harian terlebih dahulu
+    todaySales -= order.totalPrice;
+
+    // Kemas kini item & buat pengiraan total baru
+    let updatedItems = {};
+    let newTotal = 0;
+    let qtyInputs = document.querySelectorAll(".edit-item-qty");
+    
+    qtyInputs.forEach(input => {
+        let name = input.getAttribute("data-name");
+        let price = parseFloat(input.getAttribute("data-price"));
+        let qty = parseInt(input.value) || 0;
+
+        if (qty > 0) {
+            updatedItems[name] = { price: price, qty: qty };
+            newTotal += price * qty;
+        }
+    });
+
+    order.items = updatedItems;
+    order.totalPrice = newTotal;
+
+    // Tambah nilai jualan baharu ke dalam jualan harian
+    todaySales += newTotal;
+
+    localStorage.setItem('dalat_sales', todaySales);
+    localStorage.setItem('dalat_order_list', JSON.stringify(orderList));
+
+    updateDisplayCounters();
+    closeEditModal();
+    renderAdminOrders();
+    alert("Pesanan berjaya dikemas kini oleh Admin!");
+}
+
+function resetAllData() {
+    if (confirm("⚠️ Amaran: Anda pasti mahu memadam keseluruhan data jualan, senarai monitor, dan kaunter untuk hari ini? Tindakan ini tidak boleh dikembalikan.")) {
+        localStorage.removeItem('dalat_sales');
+        localStorage.removeItem('dalat_orders');
+        localStorage.removeItem('dalat_order_list');
+        todaySales = 0;
+        totalOrders = 0;
+        orderList = [];
+        updateDisplayCounters();
+        renderAdminOrders();
+    }
 }
 </script>
 
