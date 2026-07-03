@@ -5,41 +5,49 @@
     <title>Dalat Night Street POS</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: sans-serif; background: #121212; color: #fff; padding: 20px; }
+        body { font-family: sans-serif; background: #121212; color: #fff; padding: 15px; }
         .app-container { max-width: 600px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 10px; }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-item { background: #252525; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 5px; cursor: pointer; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .btn-item { background: #252525; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 5px; cursor: pointer; text-align: left; }
         .btn-item:hover { background: #ffd700; color: #000; }
-        .section-title { color: #ffd700; margin: 20px 0 10px; border-bottom: 1px solid #444; }
+        .section-title { color: #ffd700; margin: 20px 0 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h2>Menu Minuman</h2>
-    
-    <div class="section-title">Pilihan Panas</div>
+    <!-- MENU MAKANAN -->
+    <div class="section-title">🔥 Legend Grill & CKT</div>
     <div class="menu-grid">
-        <button class="btn-item" onclick="alert('Ditambah: Kopi O Panas')">Kopi O Panas (RM 3)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Kopi Panas')">Kopi Panas (RM 3)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Teh C Panas')">Teh C Panas (RM 3)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Teh O Panas')">Teh O Panas (RM 3)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Milo Panas')">Milo Panas (RM 3)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Alicafe Panas')">Alicafe Panas (RM 3)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Neslo Panas')">Neslo Panas (RM 3)</button>
+        <button class="btn-item">Duai Emas Bakar (RM 30)</button>
+        <button class="btn-item">Sotong Bakar (RM 25)</button>
+        <button class="btn-item">CKT Biasa (RM 8)</button>
+        <button class="btn-item">CKT Udang (RM 12)</button>
     </div>
 
-    <div class="section-title">Pilihan Sejuk (Ais)</div>
+    <!-- MENU AIR -->
+    <div class="section-title">🥤 Pilihan Panas</div>
     <div class="menu-grid">
-        <button class="btn-item" onclick="alert('Ditambah: Kopi O Ais')">Kopi O Ais (RM 3.5)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Kopi Ais')">Kopi Ais (RM 4)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Teh O Ais')">Teh O Ais (RM 3.5)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Teh C Ais')">Teh C Ais (RM 4)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Milo Ais')">Milo Ais (RM 4)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Milo Ais Tabur')">Milo Ais Tabur (RM 4.5)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Neslo Ais')">Neslo Ais (RM 4.5)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Alicafe Ais')">Alicafe Ais (RM 4)</button>
-        <button class="btn-item" onclick="alert('Ditambah: Sirap Bandung Ais')">Sirap Bandung Ais (RM 3.5)</button>
+        <button class="btn-item">Kopi O Panas (RM 3)</button>
+        <button class="btn-item">Kopi Panas (RM 3)</button>
+        <button class="btn-item">Teh C Panas (RM 3)</button>
+        <button class="btn-item">Teh O Panas (RM 3)</button>
+        <button class="btn-item">Milo Panas (RM 3)</button>
+        <button class="btn-item">Neslo Panas (RM 3)</button>
+        <button class="btn-item">Alicafe Panas (RM 3)</button>
+    </div>
+
+    <div class="section-title">🥤 Pilihan Sejuk (Ais)</div>
+    <div class="menu-grid">
+        <button class="btn-item">Kopi O Ais (RM 3.5)</button>
+        <button class="btn-item">Kopi Ais (RM 4)</button>
+        <button class="btn-item">Teh O Ais (RM 3.5)</button>
+        <button class="btn-item">Teh C Ais (RM 4)</button>
+        <button class="btn-item">Milo Ais (RM 4)</button>
+        <button class="btn-item">Milo Ais Tabur (RM 4.5)</button>
+        <button class="btn-item">Neslo Ais (RM 4.5)</button>
+        <button class="btn-item">Alicafe Ais (RM 4)</button>
+        <button class="btn-item">Sirap Bandung Ais (RM 3.5)</button>
     </div>
 </div>
 
